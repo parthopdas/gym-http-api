@@ -11,7 +11,9 @@ import json
 
 import logging
 logger = logging.getLogger('werkzeug')
-logger.setLevel(logging.ERROR)
+logger.setLevel(logging.INFO)
+import coloredlogs
+coloredlogs.install(level='INFO', logger=logger)
 
 ########## Container for environments ##########
 class Envs(object):
@@ -386,32 +388,6 @@ def env_close(instance_id):
     """
     envs.env_close(instance_id)
     return ('', 204)
-
-@app.route('/v1/upload/', methods=['POST'])
-def upload():
-    """
-    Upload the results of training (as automatically recorded by
-    your env's monitor) to OpenAI Gym.
-
-    Parameters:
-        - training_dir: A directory containing the results of a
-        training run.
-        - api_key: Your OpenAI API key
-        - algorithm_id (default=None): An arbitrary string
-        indicating the paricular version of the algorithm
-        (including choices of parameters) you are running.
-        """
-    j = request.get_json()
-    training_dir = get_required_param(j, 'training_dir')
-    api_key      = get_required_param(j, 'api_key')
-    algorithm_id = get_optional_param(j, 'algorithm_id', None)
-
-    try:
-        gym.upload(training_dir, algorithm_id, writeup=None, api_key=api_key,
-                   ignore_open_monitors=False)
-        return ('', 204)
-    except gym.error.AuthenticationError:
-        raise InvalidUsage('You must provide an OpenAI Gym API key')
 
 @app.route('/v1/shutdown/', methods=['POST'])
 def shutdown():

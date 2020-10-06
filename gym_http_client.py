@@ -6,6 +6,8 @@ import os
 import logging
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
+import coloredlogs
+coloredlogs.install(level='INFO', logger=logger)
 
 class Client(object):
     """
@@ -119,16 +121,6 @@ class Client(object):
         route = '/v1/envs/{}/close/'.format(instance_id)
         self._post_request(route, None)
 
-    def upload(self, training_dir, algorithm_id=None, api_key=None):
-        if not api_key:
-            api_key = os.environ.get('OPENAI_GYM_API_KEY')
-
-        route = '/v1/upload/'
-        data = {'training_dir': training_dir,
-                'algorithm_id': algorithm_id,
-                'api_key': api_key}
-        self._post_request(route, data)
-
     def shutdown_server(self):
         route = '/v1/shutdown/'
         self._post_request(route, None)
@@ -158,4 +150,3 @@ if __name__ == '__main__':
     init_obs = client.env_reset(instance_id)
     [observation, reward, done, info] = client.env_step(instance_id, 1, True)
     client.env_monitor_close(instance_id)
-    client.upload(training_dir='tmp')
