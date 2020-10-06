@@ -16,7 +16,7 @@ if __name__ == '__main__':
 
     # Set up environment
     env_id = 'CartPole-v0'
-    instance_id = client.env_create(env_id)
+    instance_id = client.env_create(env_id, 0)
 
     # Set up agent
     action_space_info = client.env_action_space_info(instance_id)
