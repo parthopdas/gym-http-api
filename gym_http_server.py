@@ -403,4 +403,4 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
     print('Server starting at: ' + 'http://{}:{}'.format(args.listen, args.port))
-    app.run(host=args.listen, port=args.port)
+    app.run(host=args.listen, port=args.port, threaded=False)
