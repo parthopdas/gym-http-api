@@ -11,9 +11,9 @@ import json
 
 import logging
 logger = logging.getLogger('werkzeug')
-logger.setLevel(logging.INFO)
+logger.setLevel(logging.WARNING)
 import coloredlogs
-coloredlogs.install(level='INFO', logger=logger)
+coloredlogs.install(level='WARNING', logger=logger)
 
 ########## Container for environments ##########
 class Envs(object):
